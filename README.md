@@ -8,4 +8,4 @@ Run it remotely:
 Uninstall Adobe Flash Player from the command line.
 
 Run it remotely:
-```bash <(https://raw.githubusercontent.com/pbihq/tools/master/RemoveFlash.sh)```
+```bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/RemoveFlash.sh)```
