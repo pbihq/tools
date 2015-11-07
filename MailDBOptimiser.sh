@@ -5,7 +5,7 @@
 
 # Start script
 clear
-echo "Apple Mail Database optimisation..."
+echo "Apple Mail Database optimisation started..."
 
 # Define variable(s)
 os=$(sw_vers -productVersion)
