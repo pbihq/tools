@@ -24,7 +24,8 @@ fi
 sizebefore=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk {'print $5'})B
 
 # Run database optimisation (SQL vaccuming)
-/usr/bin/sqlite3 ~/Library/Mail/$mailversion/MailData/Envelope\ Index vacuum &> error
+/usr/bin/sqlite3 ~/Library/Mail/$mailversion/MailData/Envelope\ Index vacuum &> /private/tmp/MailDatabaseOptimisation.log
+error=$(cat /private/tmp/MailDatabaseOptimisation.log)
 
 # Calculate database size after optimisation
 sizeafter=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk {'print $5'})B
