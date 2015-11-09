@@ -14,7 +14,7 @@ os=$(sw_vers -productVersion)
 osascript -e 'quit app "Mail"'
 
 # Check for OS X version
-if [[ $os > "10.10" ]]; then
+if [[ $os = 10.11.* ]]; then
 	mailversion="V3"
 else
 	mailversion="V2"
