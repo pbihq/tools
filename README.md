@@ -11,7 +11,7 @@ Run it remotely:
 ```bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/RemoveFlash.sh)```
 
 # Status
-Script to get a quick status overview on OS X
+Script to get a quick status overview on OS X.
 
 Run it remotely:
 ```bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status.sh)```
