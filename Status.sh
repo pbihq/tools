@@ -48,8 +48,7 @@ printf "\nMAC address en0:\t%s\nMAC address en1:\t%s\n" "$primary" "$secondary"
 
 # Check for OS X software updates
 echo
-echo "Checking for OS X software updates..."
-softwareupdate --list | grep "checking"
+softwareupdate --list
 echo
 
 exit 0
