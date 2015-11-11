@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to get a quick overview on the current Mac status
+# Script to get a quick status overview on OS X
 # v1.0 | November 2015
 
 clear
