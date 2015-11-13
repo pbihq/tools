@@ -65,7 +65,7 @@ printf "\n%s\n%s\n" "$filevault" "$firewall"
 # Check free disk space
 diskspace=$(df -Hl | grep "disk1" | awk '{ print $4 }')
 diskusage=$(df -Hl | grep "disk1" | awk '{ print $5 }')
-printf "\nHDD usage:\t%s | %s left\n" "$diskusage" "$diskspace"
+printf "\nHDD usage:\t%s | %sB left\n" "$diskusage" "$diskspace"
 
 # Calculate Apple Mail database size
 if [[ $os = 10.11.* ]]; then
