@@ -9,8 +9,7 @@ printf "Displaying current status overview...\n\n"
 # Display serial number, current user, host name and current WiFi
 serial=$(system_profiler SPHardwareDataType | grep "Serial Number" | awk '{ print $4 }')
 currentuser=$(id -F)
-hostname=$(scutil --get HostName)
-printf "Serial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$serial" "$currentuser" "$hostname"
+printf "Serial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$serial" "$currentuser" "$(hostname)"
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
@@ -39,18 +38,21 @@ fi
 printf "Bluetooth:\t%s\n" "$bluetooth"
 
 # Display supported WiFi standards
-airportstandards=$(system_profiler -detailLevel mini SPAirPortDataType | grep "Supported PHY Modes" | awk '{ print $4" "$5 }')
-printf "AirPort:\t%s\n" "$airportstandards"
+wifistd=$(system_profiler -detailLevel mini SPAirPortDataType | grep "Supported PHY Modes" | awk '{ print $4" "$5 }')
+wifirate=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/maxRate/ { print $2 }')
+printf "WiFi std:\t%s\nWiFi max:\t%s MBit/s\n" "$wifistd" "$wifirate"
 
-# Display MAC addresses of primary and secondary networking interfaces and current WiFi
+# Display current WiFi SSID, access point BSSID and MAC addresses of primary and secondary networking interfaces
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]SSID/ { print $2 }')
-primary=$(ifconfig en0 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
-secondary=$(ifconfig en1 | grep -o -E '([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}')
-printf "\nCurrent WiFi:\t%s\nMAC en0:\t%s\nMAC en1:\t%s\n" "$ssid" "$primary" "$secondary"
+bssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]BSSID/ { print $2 }')
+primary=$(networksetup -getmacaddress en0 | awk '{ print $3 }')
+secondary=$(networksetup -getmacaddress en1 | awk '{ print $3 }')
+printf "\nCurrent WiFi:\t%s\nMAC AP (BSSID):\t%s\nMAC en0:\t%s\nMAC en1:\t%s\n" "$ssid" "$bssid" "$primary" "$secondary"
 
 # Check OS version
 os=$(sw_vers -productVersion)
-printf "\nOS X:\t%s\n" "$os"
+build=$(sw_vers -buildVersion)
+printf "\nOS X:\t%s\t(Build %s)\n" "$os" "$build"
 
 # Check uptime and load
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
@@ -66,6 +68,10 @@ printf "\n%s\n%s\n" "$filevault" "$firewall"
 diskspace=$(df -Hl | grep "disk1" | awk '{ print $4 }')
 diskusage=$(df -Hl | grep "disk1" | awk '{ print $5 }')
 printf "\nHDD usage:\t%s | %sB left\n" "$diskusage" "$diskspace"
+
+# Calculate Desktop size
+desktopsize=$(du -hc ~/Desktop/ | grep "total" | awk '{ print $1 }')
+printf "\nDesktop size:\t%sB" "$desktopsize"
 
 # Calculate Apple Mail database size
 if [[ $os = 10.11.* ]]; then
