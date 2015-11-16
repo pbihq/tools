@@ -54,20 +54,18 @@ os=$(sw_vers -productVersion)
 build=$(sw_vers -buildVersion)
 printf "\nOS X:\t%s\t(Build %s)\n" "$os" "$build"
 
-# Check uptime and load
+# Check uptime
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
-load=$(uptime | grep -ohe 'load average[s:][: ].*' | awk '{ print $3 }')
-printf "Uptime:\t%s\nLoad:\t%s\n" "$runningtime" "$load"
-
-# Check for Filevault and OS X firewall
-filevault=$(fdesetup status)
-firewall=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
-printf "\n%s\n%s\n" "$filevault" "$firewall"
+printf "Uptime:\t%s\n" "$runningtime"
 
 # Check free disk space
 diskspace=$(df -Hl | grep "disk1" | awk '{ print $4 }')
 diskusage=$(df -Hl | grep "disk1" | awk '{ print $5 }')
 printf "\nHDD usage:\t%s | %sB left\n" "$diskusage" "$diskspace"
+
+# Display CPU usage
+cpuload=$(top -l 1 -s 0 | awk '/CPU usage/ { print $3" "$4" "$5" "$6" "$7" "$8 }')
+printf "CPU usage:\t%s\n" "$cpuload"
 
 # Calculate Desktop size
 desktopsize=$(du -hc ~/Desktop/ | grep "total" | awk '{ print $1 }')
@@ -87,6 +85,11 @@ pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Powe
 excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
 wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
 printf "\nPPT:\tv%s\nWord:\tv%s\nExcel:\tv%s\n" "$pptversion" "$excelversion" "$wordversion"
+
+# Check for Filevault and OS X firewall
+filevault=$(fdesetup status)
+firewall=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
+printf "\n%s\n%s\n" "$filevault" "$firewall"
 
 # Check for OS X software updates
 echo
