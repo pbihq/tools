@@ -7,13 +7,13 @@ clear
 printf "Displaying current status overview...\n\n"
 
 # Display serial number, current user, host name and current WiFi
-serial=$(system_profiler SPHardwareDataType | grep "Serial Number" | awk '{ print $4 }')
+serial=$(system_profiler SPHardwareDataType | awk '/Serial Number/ { print $4 }')
 currentuser=$(id -F)
 printf "Serial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$serial" "$currentuser" "$(hostname)"
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
-lmp=$(system_profiler -detailLevel full SPBluetoothDataType | grep "LMP Version" | awk '{ print $3 }' | cut -c 3)
+lmp=$(system_profiler -detailLevel full SPBluetoothDataType | awk '/LMP Version/ { print $3 }' | cut -c 3)
 if [[ $lmp -eq 8 ]]; then
 	bluetooth="4.2"
 elif [[ $lmp -eq 7 ]]; then
@@ -38,7 +38,7 @@ fi
 printf "Bluetooth:\t%s\n" "$bluetooth"
 
 # Display supported WiFi standards
-wifistd=$(system_profiler -detailLevel mini SPAirPortDataType | grep "Supported PHY Modes" | awk '{ print $4" "$5 }')
+wifistd=$(system_profiler -detailLevel mini SPAirPortDataType | awk '/Supported PHY Modes/ { print $4" "$5 }')
 wifirate=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/maxRate/ { print $2 }')
 printf "WiFi std:\t%s\nWiFi max:\t%s MBit/s\n" "$wifistd" "$wifirate"
 
@@ -59,8 +59,8 @@ runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }
 printf "Uptime:\t%s\n" "$runningtime"
 
 # Check free disk space
-diskspace=$(df -Hl | grep "disk1" | awk '{ print $4 }')
-diskusage=$(df -Hl | grep "disk1" | awk '{ print $5 }')
+diskspace=$(df -Hl | awk '/disk1/ { print $4 }')
+diskusage=$(df -Hl | awk '/disk1/ { print $5 }')
 printf "\nHDD usage:\t%s | %sB left\n" "$diskusage" "$diskspace"
 
 # Display CPU usage
@@ -68,7 +68,7 @@ cpuload=$(top -l 1 -s 0 | awk '/CPU usage/ { print $3" "$4" "$5" "$6" "$7" "$8 }
 printf "CPU usage:\t%s\n" "$cpuload"
 
 # Calculate Desktop size
-desktopsize=$(du -hc ~/Desktop/ | grep "total" | awk '{ print $1 }')
+desktopsize=$(du -hc ~/Desktop/ | awk '/total/ { print $1 }')
 printf "\nDesktop size:\t%sB" "$desktopsize"
 
 # Calculate Apple Mail database size
