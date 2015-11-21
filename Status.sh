@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Script to get a quick status overview on OS X
-# v1.0 | November 2015
 
 clear
 printf "Displaying current status overview...\n\n"
@@ -45,18 +44,24 @@ printf "WiFi std:\t%s\nWiFi max:\t%s MBit/s\n" "$wifistd" "$wifirate"
 # Display current WiFi SSID, access point BSSID and MAC addresses of primary and secondary networking interfaces
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]SSID/ { print $2 }')
 bssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]BSSID/ { print $2 }')
-primary=$(networksetup -getmacaddress en0 | awk '{ print $3 }')
-secondary=$(networksetup -getmacaddress en1 | awk '{ print $3 }')
-printf "\nCurrent WiFi:\t%s\nMAC AP (BSSID):\t%s\nMAC en0:\t%s\nMAC en1:\t%s\n" "$ssid" "$bssid" "$primary" "$secondary"
+primaryip=$(ipconfig getifaddr en0)
+secondaryip=$(ipconfig getifaddr en1)
+primarymac=$(networksetup -getmacaddress en0 | awk '{ print $3 }')
+secondarymac=$(networksetup -getmacaddress en1 | awk '{ print $3 }')
+printf "\nCurrent WiFi:\t%s\nMAC AP (BSSID):\t%s\n\nMAC | IP en0:\t%s\nMAC | IP en1:\t%s\n" "$ssid" "$bssid" "$primarymac | $primaryip" "$secondarymac | $secondaryip"
+
+# Get public IP
+pubip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+printf "Public IP:\t%s\n" "$pubip"
 
 # Check OS version
 os=$(sw_vers -productVersion)
 build=$(sw_vers -buildVersion)
-printf "\nOS X:\t%s\t(Build %s)\n" "$os" "$build"
+printf "\nOS X:\t\t%s\t(Build %s)\n" "$os" "$build"
 
 # Check uptime
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
-printf "Uptime:\t%s\n" "$runningtime"
+printf "Uptime:\t\t%s\n" "$runningtime"
 
 # Check free disk space
 diskspace=$(df -Hl | awk '/disk1/ { print $4 }')
@@ -84,7 +89,7 @@ printf "\nMail db size:\t%s\n" "$maildbsize"
 pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist CFBundleVersion)
 excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
 wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
-printf "\nPPT:\tv%s\nWord:\tv%s\nExcel:\tv%s\n" "$pptversion" "$excelversion" "$wordversion"
+printf "\nPPT:\t\tv%s\nWord:\t\tv%s\nExcel:\t\tv%s\n" "$pptversion" "$excelversion" "$wordversion"
 
 # Check for Filevault and OS X firewall
 filevault=$(fdesetup status)
