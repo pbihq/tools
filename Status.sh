@@ -32,7 +32,7 @@ elif [[ $lmp -eq 1 ]]; then
 elif [[ $lmp -eq 0 ]]; then
 	bluetooth="1.0b"
 elif [[ $lmp -gt 8 ]]; then
-	printf "\nBluetooth:\t4.2+\n"
+	bluetooth="4.2+"
 fi
 printf "Bluetooth:\t%s\n" "$bluetooth"
 
@@ -90,6 +90,10 @@ pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Powe
 excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
 wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
 printf "\nPPT:\t\tv%s\nWord:\t\tv%s\nExcel:\t\tv%s\n" "$pptversion" "$excelversion" "$wordversion"
+
+# List all users
+listusers=$(dscl . -list /users shell | grep -v false | grep -v '^_' | awk '{ print $1 }')
+printf "\nUser accounts:\n%s\n" "$listusers"
 
 # Check for Filevault and OS X firewall
 filevault=$(fdesetup status)
