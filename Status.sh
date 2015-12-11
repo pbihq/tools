@@ -66,7 +66,7 @@ printf "Uptime:\t\t%s\n" "$runningtime"
 # Display battery status
 batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//')
 if [[ -z $batterycharge ]]; then
-	$batterycharge="(No battery)"
+	$batterycharge=echo "(No battery)"
 fi
 printf "Battery charge:\t%s\n" "$batterycharge"
 
