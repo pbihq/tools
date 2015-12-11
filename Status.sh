@@ -63,6 +63,13 @@ printf "\nOS X:\t\t%s\t(Build %s)\n" "$os" "$build"
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
 printf "Uptime:\t\t%s\n" "$runningtime"
 
+# Display battery status
+batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//')
+if [[ -z $batterycharge ]]; then
+	$batterycharge="(No battery)"
+fi
+printf "Battery charge:\t%s\n" "$batterycharge"
+
 # Check free disk space
 diskspace=$(df -Hl | awk '/disk1/ { print $4 }')
 diskusage=$(df -Hl | awk '/disk1/ { print $5 }')
