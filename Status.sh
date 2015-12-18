@@ -102,10 +102,15 @@ printf "\nPPT:\t\tv%s\nWord:\t\tv%s\nExcel:\t\tv%s\n" "$pptversion" "$excelversi
 listusers=$(dscl . -list /users shell | grep -v false | grep -v '^_' | awk '{ print $1 }')
 printf "\nUser accounts:\n%s\n" "$listusers"
 
-# Check for Filevault and OS X firewall
+# Check for Filevault, OS X firewall and System Integrity Protection
 filevaultstatus=$(fdesetup status)
 firewallstatus=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
-sipstatus=$(csrutil status)
+if [[ $os = 10.11.* ]]; then
+	sipstatus=$(csrutil status)
+else
+	sipstatus=""
+fi
+
 printf "\n%s\n%s\n%s\n" "$filevaultstatus" "$firewallstatus" "$sipstatus"
 
 # Check for OS X software updates
