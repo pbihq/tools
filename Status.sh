@@ -39,7 +39,7 @@ printf "Bluetooth:\t%s\n" "$bluetooth"
 # Display supported WiFi standards
 wifistd=$(system_profiler -detailLevel mini SPAirPortDataType | awk '/Supported PHY Modes/ { print $4" "$5 }')
 wifirate=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/maxRate/ { print $2 }')
-printf "WiFi std:\t%s\nWiFi max:\t%s MBit/s\n" "$wifistd" "$wifirate"
+printf "WiFi std:\t%s\nWiFi max rec:\t%s MBit/s\n" "$wifistd" "$wifirate"
 
 # Display current WiFi SSID, access point BSSID and MAC addresses of primary and secondary networking interfaces
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]SSID/ { print $2 }')
@@ -103,9 +103,10 @@ listusers=$(dscl . -list /users shell | grep -v false | grep -v '^_' | awk '{ pr
 printf "\nUser accounts:\n%s\n" "$listusers"
 
 # Check for Filevault and OS X firewall
-filevault=$(fdesetup status)
-firewall=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
-printf "\n%s\n%s\n" "$filevault" "$firewall"
+filevaultstatus=$(fdesetup status)
+firewallstatus=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
+sipstatus=$(csrutil status)
+printf "\n%s\n%s\n%s\n" "$filevaultstatus" "$firewallstatus" "$sipstatus"
 
 # Check for OS X software updates
 echo
