@@ -16,6 +16,10 @@ RemoveFlash
 
 Status
 ======
-Script to get a quick system status overview on OS X. Run it remotely:
+Script to get a quick system status overview on OS X. Run it remotely or install it on your system.
 
-    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status.sh)
+Install:
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status/InstallStatus.sh)
+
+Run remotely:
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status/Status.sh)
