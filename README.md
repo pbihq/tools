@@ -8,9 +8,7 @@ Simple bash script that optimises the Apple Mail database. Inspired by [Brett Te
 
 RemoveFlash
 ===========
-[Uninstall Adobe Flash Player][2] from the command line. Run it remotely:  
-
-    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/RemoveFlash.sh)
+[Uninstall Adobe Flash Player][2] from the command line.
 
 [2]: https://helpx.adobe.com/flash-player/kb/uninstall-flash-player-mac-os.html
 
@@ -18,8 +16,10 @@ Status
 ======
 Script to get a quick system status overview on OS X. Run it remotely or install it on your system.
 
-Install:
+Install Status-Script on local machine. After that you can run it by simply typing "status" in the command line:
+
     bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status/InstallStatus.sh)
 
-Run remotely:
+Or run it remotely:
+
     bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status/Status.sh)
