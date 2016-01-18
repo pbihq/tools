@@ -15,7 +15,7 @@ sudo chown -R $USER:$GROUP /usr/local/bin
 # Generate status script executable
 cat > /usr/local/bin/status << EOF
 #!/bin/bash
-bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status.sh)
+bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/Status/Status.sh)
 exit 0
 EOF
 
