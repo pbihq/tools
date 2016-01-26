@@ -96,7 +96,11 @@ printf "\nMail db size:\t%s\n" "$maildbsize"
 pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist CFBundleVersion)
 excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
 wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
-printf "\nPPT:\t\tv%s\nWord:\t\tv%s\nExcel:\t\tv%s\n" "$pptversion" "$excelversion" "$wordversion"
+printf "\nOffice:\t\tWord: %s | Excel: %s | PPT: %s" "$pptversion" "$excelversion" "$wordversion"
+
+# Display Dropbox version
+dropboxversion=$(defaults read /Applications/Dropbox.app/Contents/Info.plist CFBundleVersion)
+printf "\nDropbox:\tv%s\n" "$dropboxversion"
 
 # List all users
 listusers=$(dscl . -list /users shell | grep -v false | grep -v '^_' | awk '{ print $1 }')
