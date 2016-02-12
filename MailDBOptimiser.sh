@@ -8,10 +8,13 @@ clear
 echo "Apple Mail Database optimisation started..."
 
 # Define variable(s)
-os=$(sw_vers -productVersion)
+os = $(sw_vers -productVersion)
 
 # Close Apple Mail
-osascript -e 'quit app "Mail"'
+AppRunning = $(pgrep Mail)
+if [[ -n  $AppRunning ]]; then
+    osascript -e 'quit app "Mail"'
+fi
 
 # Check for OS X version
 if [[ $os = 10.11.* ]]; then
@@ -43,11 +46,9 @@ printf "\nMail index size before:\t%s\nMail index size after:\t%s\n\nEnjoy the n
 
 # Set exit code
 if [[ "$error" -ne "0" ]]; then
-	exitcode=1
 	logger "Apple Mail Database Optimisation failed."
+	exit 1
 else
-	exitcode=0
 	logger "Apple Mail Database Optimisation finished."
+	exit 0
 fi
-
-exit $exitcode
