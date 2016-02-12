@@ -8,11 +8,11 @@ clear
 echo "Apple Mail Database optimisation started..."
 
 # Define variable(s)
-os = $(sw_vers -productVersion)
+os=$(sw_vers -productVersion)
 
 # Close Apple Mail
-AppRunning = $(pgrep Mail)
-if [[ -n  $AppRunning ]]; then
+AppRunning=$(pgrep Mail)
+if [[ -n $AppRunning ]]; then
     osascript -e 'quit app "Mail"'
 fi
 
