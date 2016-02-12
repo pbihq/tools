@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Apple Mail database defragmentation / optimisation script
-# v1.1 | November 2015
 
 # Start script
 clear
