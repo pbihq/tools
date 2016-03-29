@@ -12,27 +12,28 @@ printf "Serial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$serial" "$cur
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
-lmp=$(system_profiler -detailLevel full SPBluetoothDataType | awk '/LMP Version/ { print $3 }' | cut -c 3)
-if [[ $lmp -eq 8 ]]; then
+lmp=$(system_profiler -detailLevel full SPBluetoothDataType | awk '/LMP Version/ { print $3 }')
+
+if [ $lmp = "0x8" ] || [ $lmp = "4.2" ]; then
 	bluetooth="4.2"
-elif [[ $lmp -eq 7 ]]; then
+elif [ $lmp = "0x7" ] || [ $lmp = "4.1" ]; then
 	bluetooth="4.1"
-elif [[ $lmp -eq 6 ]]; then
+elif [ $lmp = "0x6" ] || [ $lmp = "4.0" ]; then
 	bluetooth="4.0"
-elif [[ $lmp -eq 5 ]]; then
+elif [ $lmp = "0x5" ] || [ $lmp = "3.0" ]; then
 	bluetooth="3.0 + HS"
-elif [[ $lmp -eq 4 ]]; then
+elif [ $lmp = "0x4" ] || [ $lmp = "2.1" ]; then
 	bluetooth="2.1 + EDR"
-elif [[ $lmp -eq 3 ]]; then
+elif [ $lmp = "0x3" ] || [ $lmp = "2.0" ]; then
 	bluetooth="2.0 + EDR"
-elif [[ $lmp -eq 2 ]]; then
+elif [ $lmp = "0x2" ] || [ $lmp = "1.2" ]; then
 	bluetooth="1.2"
-elif [[ $lmp -eq 1 ]]; then
+elif [ $lmp = "0x1" ] || [ $lmp = "1.1" ]; then
 	bluetooth="1.1"
-elif [[ $lmp -eq 0 ]]; then
+elif [ $lmp = "0x0" ] || [ $lmp = "1.0b" ]; then
 	bluetooth="1.0b"
-elif [[ $lmp -gt 8 ]]; then
-	bluetooth="4.2+"
+else
+	bluetooth="Bluetooth version unknown"
 fi
 printf "Bluetooth:\t%s\n" "$bluetooth"
 
