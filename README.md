@@ -6,11 +6,17 @@ Simple bash script that optimises the Apple Mail database. Inspired by [Brett Te
 
 [1]: http://brettterpstra.com/2015/10/27/vacuuming-mail-dot-app-on-el-capitan/
 
+PDF-Services
+===========
+Deploys two OS X services to combine and split PDFs. Based on [Brooks Duncan's Automator workflows][2].
+
+[2]: http://www.documentsnap.com/how-to-combine-pdf-files-in-mac-osx-using-automator-to-make-a-service/
+
 RemoveFlash
 ===========
-[Uninstall Adobe Flash Player][2] from the command line.
+[Uninstall Adobe Flash Player][3] from the command line.
 
-[2]: https://helpx.adobe.com/flash-player/kb/uninstall-flash-player-mac-os.html
+[3]: https://helpx.adobe.com/flash-player/kb/uninstall-flash-player-mac-os.html
 
 Status
 ======
