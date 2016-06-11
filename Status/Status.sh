@@ -6,9 +6,14 @@ clear
 printf "Displaying current status overview...\n\n"
 
 # Display serial number, current user, host name and current WiFi
+macname=$(curl -s http://support-sp.apple.com/sp/product?cc=\
+$( ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/\
+{ sn=$(NF-1); if (length(sn) == 12) count=3; else if (length(sn) == 11) \
+count=2; print substr(sn, length(sn) - count, length(sn))}' ) | \
+xpath '/root/configCode/text()' 2>/dev/null)
 serial=$(system_profiler SPHardwareDataType | awk '/Serial Number/ { print $4 }')
 currentuser=$(id -F)
-printf "Serial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$serial" "$currentuser" "$(hostname)"
+printf "Mac:\t\t%s\nSerial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$macname" "$serial" "$currentuser" "$(hostname)"
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
