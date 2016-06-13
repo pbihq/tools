@@ -1,4 +1,5 @@
 #!/bin/bash
+TERM=xterm-256color
 
 # Script to get a quick status overview on OS X
 
@@ -13,7 +14,7 @@ count=2; print substr(sn, length(sn) - count, length(sn))}' ) | \
 xpath '/root/configCode/text()' 2>/dev/null)
 serial=$(system_profiler SPHardwareDataType | awk '/Serial Number/ { print $4 }')
 currentuser=$(id -F)
-printf "Mac:\t\t%s\nSerial number:\t%s\nCurrent user:\t%s\nHost name:\t%s\n" "$macname" "$serial" "$currentuser" "$(hostname)"
+printf "Mac:\t\t\t%s\nSerial number:\t\t%s\nCurrent user:\t\t%s\nHost name:\t\t%s\n" "$macname" "$serial" "$currentuser" "$(hostname)"
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
@@ -40,12 +41,12 @@ elif [ $lmp = "0x0" ] || [ $lmp = "1.0b" ]; then
 else
 	bluetooth="Bluetooth version unknown"
 fi
-printf "Bluetooth:\t%s\n" "$bluetooth"
+printf "Bluetooth:\t\t%s\n" "$bluetooth"
 
 # Display supported WiFi standards
 wifistd=$(system_profiler -detailLevel mini SPAirPortDataType | awk '/Supported PHY Modes/ { print $4" "$5 }')
 wifirate=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/maxRate/ { print $2 }')
-printf "WiFi std:\t%s\nWiFi max rec:\t%s MBit/s\n" "$wifistd" "$wifirate"
+printf "WiFi std:\t\t%s\nWiFi max rec:\t\t%s MBit/s\n" "$wifistd" "$wifirate"
 
 # Display current WiFi SSID, access point BSSID and MAC addresses of primary and secondary networking interfaces
 ssid=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk '/[^B]SSID/ { print $2 }')
@@ -54,40 +55,41 @@ primaryip=$(ipconfig getifaddr en0)
 secondaryip=$(ipconfig getifaddr en1)
 primarymac=$(networksetup -getmacaddress en0 | awk '{ print $3 }')
 secondarymac=$(networksetup -getmacaddress en1 | awk '{ print $3 }')
-printf "\nCurrent WiFi:\t%s\nMAC AP (BSSID):\t%s\n\nMAC | IP en0:\t%s\nMAC | IP en1:\t%s\n" "$ssid" "$bssid" "$primarymac | $primaryip" "$secondarymac | $secondaryip"
+printf "\nCurrent WiFi:\t\t%s\nMAC AP (BSSID):\t\t%s\n\nMAC | IP en0:\t\t%s\nMAC | IP en1:\t\t%s\n" "$ssid" "$bssid" "$primarymac | $primaryip" "$secondarymac | $secondaryip"
 
 # Get public IP
 pubip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-printf "Public IP:\t%s\n" "$pubip"
+printf "Public IP:\t\t%s\n" "$pubip"
 
 # Check OS version
 os=$(sw_vers -productVersion)
 build=$(sw_vers -buildVersion)
-printf "\nOS X:\t\t%s\t(Build %s)\n" "$os" "$build"
+printf "\nOS X:\t\t\t%s\t(Build %s)\n" "$os" "$build"
 
 # Check uptime
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
-printf "Uptime:\t\t%s\n" "$runningtime"
+printf "Uptime:\t\t\t%s\n" "$runningtime"
 
 # Display battery status
 batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//')
 if [[ -z $batterycharge ]]; then
 	batterycharge="(No battery)"
 fi
-printf "Battery charge:\t%s\n" "$batterycharge"
+printf "Battery charge:\t\t%s\n" "$batterycharge"
 
 # Check free disk space
 diskspace=$(df -Hl | awk '/disk1/ { print $4 }')
 diskusage=$(df -Hl | awk '/disk1/ { print $5 }')
-printf "\nHDD usage:\t%s | %sB left\n" "$diskusage" "$diskspace"
+printf "\nHDD usage:\t\t%s | %sB left\n" "$diskusage" "$diskspace"
 
 # Display CPU usage
 cpuload=$(top -l 1 -s 0 | awk '/CPU usage/ { print $3" "$4" "$5" "$6" "$7" "$8 }')
-printf "CPU usage:\t%s\n" "$cpuload"
+printf "CPU usage:\t\t%s\n" "$cpuload"
 
-# Calculate Desktop size
+# Calculate Desktop size and number of elements
+desktopelements=$(ls ~/Desktop/ | wc -l | xargs)
 desktopsize=$(du -hc ~/Desktop/ | awk '/total/ { print $1 }')
-printf "\nDesktop size:\t%sB" "$desktopsize"
+printf "\nDesktop items:\t\t%s (%sB)" "$desktopelements" "$desktopsize"
 
 # Calculate Apple Mail database size
 if [[ $os = 10.11.* ]]; then
@@ -96,17 +98,17 @@ else
 	mailversion="V2"
 fi
 maildbsize=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk '{ print $5 }')B
-printf "\nMail db size:\t%s\n" "$maildbsize"
+printf "\nMail db size:\t\t%s\n" "$maildbsize"
 
 # Check for Office version installed
 pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist CFBundleVersion)
 excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
 wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
-printf "\nOffice:\t\tWord: %s | Excel: %s | PPT: %s" "$pptversion" "$excelversion" "$wordversion"
+printf "\nOffice:\t\t\tWord: %s | Excel: %s | PPT: %s" "$pptversion" "$excelversion" "$wordversion"
 
 # Display Dropbox version
 dropboxversion=$(defaults read /Applications/Dropbox.app/Contents/Info.plist CFBundleVersion)
-printf "\nDropbox:\tv%s\n" "$dropboxversion"
+printf "\nDropbox:\t\tv%s\n" "$dropboxversion"
 
 # List all users
 listusers=$(dscl . -list /users shell | grep -v false | grep -v '^_' | awk '{ print $1 }')
