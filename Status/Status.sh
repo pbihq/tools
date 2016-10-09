@@ -100,11 +100,51 @@ fi
 maildbsize=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk '{ print $5 }')B
 printf "\nMail db size:\t\t%s\n" "$maildbsize"
 
-# Check for Office version installed
-pptversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist CFBundleVersion)
-excelversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
-wordversion=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
-printf "\nOffice:\t\t\tWord: %s | Excel: %s | PPT: %s" "$pptversion" "$excelversion" "$wordversion"
+# Check for installed MS Office software and print out version numbers
+# Associative arrays in Bash are only supported from 4.0 upwards so three manual checks used
+
+# PowerPoint checks
+if [[ -f /Applications/Microsoft\ PowerPoint.app/Contents/Info.plist ]] ; then
+	pptversion2016=$(defaults read /Applications/Microsoft\ PowerPoint.app/Contents/Info.plist CFBundleShortVersionString)
+else
+	pptversion2016="-"
+fi
+
+if [[ -f /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist ]] ; then
+	pptversion2011=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ PowerPoint.app/Contents/version.plist CFBundleVersion)
+else
+	pptversion2011="-"
+fi
+
+# Excel checks
+if [[ -f /Applications/Microsoft\ Excel.app/Contents/Info.plist ]] ; then
+	excelversion2016=$(defaults read /Applications/Microsoft\ Excel.app/Contents/Info.plist CFBundleShortVersionString)
+else
+	excelversion2016="-"
+fi
+
+if [[ -f /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist ]] ; then
+	excelversion2011=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Excel.app/Contents/version.plist CFBundleVersion)
+else
+	excelversion2011="-"
+fi
+
+# Word checks
+if [[ -f /Applications/Microsoft\ Word.app/Contents/Info.plist ]] ; then
+	wordversion2016=$(defaults read /Applications/Microsoft\ Word.app/Contents/Info.plist CFBundleShortVersionString)
+else
+	wordversion2016="-"
+fi
+
+if [[ -f /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist ]] ; then
+	wordversion2011=$(defaults read /Applications/Microsoft\ Office\ 2011/Microsoft\ Word.app/Contents/version.plist CFBundleVersion)
+else
+	wordversion2011="-"
+fi
+
+# Display MS Office version numbers
+printf "\nOffice 2016:\t\tWord 2016: %s | Excel 2016: %s | PPT 2016: %s" "$pptversion2016" "$excelversion2016" "$wordversion2016"
+printf "\nOffice 2011:\t\tWord 2011: %s | Excel 2011: %s | PPT 2011: %s" "$pptversion2011" "$excelversion2011" "$wordversion2011"
 
 # Display Dropbox version
 dropboxversion=$(defaults read /Applications/Dropbox.app/Contents/Info.plist CFBundleVersion)
@@ -126,8 +166,8 @@ fi
 printf "\n%s\n%s\n%s\n" "$filevaultstatus" "$firewallstatus" "$sipstatus"
 
 # Check for OS X software updates
-echo
-softwareupdate --list
-echo
+# echo
+# softwareupdate --list
+# echo
 
 exit 0
