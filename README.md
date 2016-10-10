@@ -1,6 +1,6 @@
 MailDBOptimiser
 ===============
-Simple bash script that optimises the Apple Mail database. Inspired by [Brett Terpstra's post][1]. Run it remotely:  
+Optimises the Apple Mail database. Inspired by [Brett Terpstra's post][1]. Run it remotely:  
 
     bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/MailDBOptimiser.sh)
 
@@ -14,13 +14,17 @@ Deploys two OS X services to combine and split PDFs. Based on [Brooks Duncan's A
 
 RemoveFlash
 ===========
-[Uninstall Adobe Flash Player][3] from the command line.
+[Uninstalls Adobe Flash Player][3] from the command line.
 
 [3]: https://helpx.adobe.com/flash-player/kb/uninstall-flash-player-mac-os.html
 
+RemoveSierraInstaller
+===========
+Looks for the macOS Sierra installer and if found removes it.
+
 Status
 ======
-Script to get a quick system status overview on OS X. Run it remotely or install it on your system.
+Displays a quick system status overview on macOS. Run it remotely or install it on your system.
 
 Install Status-Script on local machine. After that you can run it by simply typing "status" in the command line:
 
