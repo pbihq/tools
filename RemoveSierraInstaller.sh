@@ -1,5 +1,6 @@
 #!/bin/bash
-#This small script looks for the macOS Sierra installer and if found removes it.
+# This small script looks for the macOS Sierra installer and if found removes it.
+# Run it with sudo or as root in Apple Remote Desktop.
 
 if [[ -d /Applications/Install\ macOS\ Sierra.app/ ]] ; then
   rm -rf /Applications/Install\ macOS\ Sierra.app/

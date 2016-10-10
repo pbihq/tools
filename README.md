@@ -20,7 +20,7 @@ RemoveFlash
 
 RemoveSierraInstaller
 ===========
-Looks for the macOS Sierra installer and if found removes it.
+Looks for the macOS Sierra installer and if found removes it. Run it with sudo or as root in Apple Remote Desktop.
 
 Status
 ======
