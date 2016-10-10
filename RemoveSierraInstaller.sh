@@ -1,5 +1,5 @@
 #!/bin/bash
-# This sall script looks for the macOS Sierra installer and if found removes it.
+#This small script looks for the macOS Sierra installer and if found removes it.
 
 if [[ -d /Applications/Install\ macOS\ Sierra.app/ ]] ; then
   rm -rf /Applications/Install\ macOS\ Sierra.app/
