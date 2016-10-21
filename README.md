@@ -22,6 +22,8 @@ RemoveSierraInstaller
 ===========
 Looks for the macOS Sierra installer and if found removes it. Run it with sudo or as root in Apple Remote Desktop.
 
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/RemoveSierraInstaller.sh)
+
 Status
 ======
 Displays a quick system status overview on macOS. Run it remotely or install it on your system.
