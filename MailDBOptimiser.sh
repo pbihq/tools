@@ -15,12 +15,13 @@ if [[ -n $AppRunning ]]; then
     osascript -e 'quit app "Mail"'
 fi
 
-# Check for OS X version
-if [[ $os = 10.11.* ]]; then
-	mailversion="V3"
-else
-	mailversion="V2"
-fi
+# Set Mailversion for correct filepath
+case $os in
+10.10*) mailversion="V2";;
+10.11*) mailversion="V3";;
+10.12*) mailversion="V4";;
+*) echo "Error while setting mail version. Please note: This script only works from macOS 10.10 to 10.12"
+esac
 
 # Calculate database size before starting optimisation
 sizebefore=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk {'print $5'})B
