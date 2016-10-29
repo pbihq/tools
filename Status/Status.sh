@@ -62,16 +62,22 @@ pubip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 printf "Public IP:\t\t%s\n" "$pubip"
 
 # Check OS version
-os=$(sw_vers -productVersion)
+operatingsystem=$(sw_vers -productVersion)
 build=$(sw_vers -buildVersion)
-printf "\nOS X:\t\t\t%s\t(Build %s)\n" "$os" "$build"
+printf "\nOS X:\t\t\t%s\t(Build %s)\n" "$operatingsystem" "$build"
 
 # Check uptime
 runningtime=$(uptime | grep -ohe 'up .*' | sed 's/,//g' | awk '{ print $2" "$3 }')
 printf "Uptime:\t\t\t%s\n" "$runningtime"
 
 # Display battery status
-batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//')
+case $operatingsystem in
+10.12*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $3 }' | sed 's/;$//');;
+10.11*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//');;
+10.10*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//');;
+*) batterycharge="OS not supported.";;
+esac
+
 if [[ -z $batterycharge ]]; then
 	batterycharge="(No battery)"
 fi
@@ -92,11 +98,13 @@ desktopsize=$(du -hc ~/Desktop/ | awk '/total/ { print $1 }')
 printf "\nDesktop items:\t\t%s (%sB)" "$desktopelements" "$desktopsize"
 
 # Calculate Apple Mail database size
-if [[ $os = 10.11.* ]]; then
-	mailversion="V3"
-else
-	mailversion="V2"
-fi
+case $operatingsystem in
+10.12*) mailversion="V4";;
+10.11*) mailversion="V3";;
+10.10*) mailversion="V2";;
+*) mailversion="Error: Mail db not found.";;
+esac
+
 maildbsize=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk '{ print $5 }')B
 printf "\nMail db size:\t\t%s\n" "$maildbsize"
 
@@ -147,7 +155,11 @@ printf "\nOffice 2016:\t\tWord 2016: %s | Excel 2016: %s | PPT 2016: %s" "$ppt
 printf "\nOffice 2011:\t\tWord 2011: %s | Excel 2011: %s | PPT 2011: %s" "$pptversion2011" "$excelversion2011" "$wordversion2011"
 
 # Display Dropbox version
-dropboxversion=$(defaults read /Applications/Dropbox.app/Contents/Info.plist CFBundleVersion)
+if [[ -f /Applications/Dropbox.app/Contents/Info.plist ]] ; then
+	dropboxversion=$(defaults read /Applications/Dropbox.app/Contents/Info.plist CFBundleVersion)
+else
+	dropboxversion="-"
+fi
 printf "\nDropbox:\t\tv%s\n" "$dropboxversion"
 
 # List all users
@@ -157,13 +169,14 @@ printf "\nUser accounts:\n%s\n" "$listusers"
 # Check for Filevault, OS X firewall and System Integrity Protection
 filevaultstatus=$(fdesetup status)
 firewallstatus=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
-if [[ $os = 10.11.* ]]; then
-	sipstatus=$(csrutil status)
-else
-	sipstatus=""
-fi
 
-printf "\n%s\n%s\n%s\n" "$filevaultstatus" "$firewallstatus" "$sipstatus"
+case $operatingsystem in
+10.11*) sipstatus=$(csrutil status);;
+10.12*) sipstatus=$(csrutil status);;
+*) sipstatus="SIP not installed.";;
+esac
+
+printf "\n%s\n%s\n%s\n\n" "$filevaultstatus" "$firewallstatus" "$sipstatus"
 
 # Check for OS X software updates
 # echo
