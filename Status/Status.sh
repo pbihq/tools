@@ -1,17 +1,17 @@
 #!/bin/bash
-TERM=xterm-256color
-
 # Script to get a quick status overview on OS X
+
+TERM=xterm-256color
 
 clear
 printf "Displaying current status overview...\n\n"
 
 # Display Apple Mac marketing name, serial number, current user, host name and current WiFi
 macname=$(curl -s http://support-sp.apple.com/sp/product?cc=\
-$( ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/\
+"$( ioreg -c IOPlatformExpertDevice -d 2 | awk -F\" '/IOPlatformSerialNumber/\
 { sn=$(NF-1); if (length(sn) == 12) count=3; else if (length(sn) == 11) \
-count=2; print substr(sn, length(sn) - count, length(sn))}' ) | \
-xpath '/root/configCode/text()' 2>/dev/null)
+count=2; print substr(sn, length(sn) - count, length(sn))}' )" | \
+xpath '/root/configCode/text()' 2>/dev/null || { echo "Error: Can't detect Mac model. Are you online?" 1> >(sed $'s,.*,\e[31m&\e[m,'); })
 serial=$(system_profiler SPHardwareDataType | awk '/Serial Number/ { print $4 }')
 currentuser=$(id -F)
 printf "Mac:\t\t\t%s\nSerial number:\t\t%s\nCurrent user:\t\t%s\nHost name:\t\t%s\n" "$macname" "$serial" "$currentuser" "$(hostname)"
@@ -58,7 +58,7 @@ secondarymac=$(networksetup -getmacaddress en1 | awk '{ print $3 }')
 printf "\nCurrent WiFi:\t\t%s\nMAC AP (BSSID):\t\t%s\n\nMAC | IP en0:\t\t%s\nMAC | IP en1:\t\t%s\n" "$ssid" "$bssid" "$primarymac | $primaryip" "$secondarymac | $secondaryip"
 
 # Get public IP
-pubip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+pubip=$(dig +short myip.opendns.com @resolver1.opendns.com 2> /dev/null || { echo "Error: No IP detected" 1> >(sed $'s,.*,\e[31m&\e[m,'); })
 printf "Public IP:\t\t%s\n" "$pubip"
 
 # Check OS version
@@ -105,7 +105,7 @@ case $operatingsystem in
 *) mailversion="Error: Mail db not found.";;
 esac
 
-maildbsize=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk '{ print $5 }')B
+maildbsize=$(/usr/bin/du -h ~/Library/Mail/$mailversion/MailData/"Envelope Index" | awk '{ print $1 }')B
 printf "\nMail db size:\t\t%s\n" "$maildbsize"
 
 # Check for installed MS Office software and print out version numbers
