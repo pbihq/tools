@@ -7,7 +7,7 @@ clear
 echo "Apple Mail Database optimisation started..."
 
 # Define variable(s)
-os=$(sw_vers -productVersion)
+os=$(sw_vers -productVersion || { echo "Error: Can't detect OS version"; })
 
 # Close Apple Mail
 AppRunning=$(pgrep Mail)
@@ -24,14 +24,14 @@ case $os in
 esac
 
 # Calculate database size before starting optimisation
-sizebefore=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk {'print $5'})B
+sizebefore=$(du -h ~/Library/Mail/$mailversion/MailData/"Envelope Index" | awk '{ print $1 }')B
 
 # Run database optimisation (SQL vaccuming)
-/usr/bin/sqlite3 ~/Library/Mail/$mailversion/MailData/Envelope\ Index vacuum &> /private/tmp/MailDatabaseOptimisation.log
+sqlite3 ~/Library/Mail/$mailversion/MailData/Envelope\ Index vacuum &> /private/tmp/MailDatabaseOptimisation.log
 error=$(cat /private/tmp/MailDatabaseOptimisation.log)
 
 # Calculate database size after optimisation
-sizeafter=$(ls -lnah ~/Library/Mail/$mailversion/MailData | grep -E 'Envelope Index$' | awk {'print $5'})B
+sizeafter=$(du -h ~/Library/Mail/$mailversion/MailData/"Envelope Index" | awk '{ print $1 }')B
 
 # Create success/error message
 if [[ -z $error ]]; then
