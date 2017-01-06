@@ -7,6 +7,9 @@ timeStamp=$(/bin/date "+%Y-%m-%d %H:%M:%S")
 if [[ ! -d "$3/Library/Internet Plug-Ins/Flash Player.plugin" ]]; then
   /bin/echo "$timeStamp Adobe Flash Player not found. Exiting..." >> \
   /Library/Logs/com.point-blank-international.RemoveFlash.log
+  # Remove uninstaller app, exit on error
+  /bin/rm -rf "$3/tmp/Adobe Flash Player Uninstaller.app" || \
+  { /bin/echo "$timeStamp Error deleting Adobe Flash Player Uninstaller.app"; exit 1; }
   exit 0
 fi
 
