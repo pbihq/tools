@@ -10,17 +10,13 @@
 info()    { echo "[INFO] $*" 1> >(sed $'s,.*,\e[32m&\e[m,'); }
 warning() { echo "[WARNING] $*" 1> >(sed $'s,.*,\e[33m&\e[m,'); }
 error()   { echo "[ERROR] $*" 1> >(sed $'s,.*,\e[35m&\e[m,'); }
-fatal()   { echo "[FATAL] $*" 1> >(sed $'s,.*,\e[31m&\e[m,'); exit 1 ; }
+fatal()   { echo "[FATAL] $*" 1> >(sed $'s,.*,\e[31m&\e[m,'); exit 1; }
 
 # #################################################################################################
 # Set unofficial Bash strict mode
 # Source: https://dev.to/thiht/shell-scripts-matter
 set -euo pipefail
 IFS=$'\n\t'
-
-# Set working directory so that script can be run independent of location
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 
 # Enable extended globbing. Expand file name patterns which match no files to a null string.
 shopt -s extglob nullglob
@@ -51,6 +47,11 @@ function createFFmpegInputList() {
 	for f in +(ZO0)*.+(MOV|mov); do
 		echo "file '$PWD/$f'" >> $FFmpegInputList
 	done
+
+  # Check if FFmpegInputList has been created
+  if [[ ! -f $FFmpegInputList ]]; then
+    fatal "FFmpegInputList not found / no MOV files in current directory. Exiting..."
+  fi
 }
 
 # Delete temporary file list if it exists
@@ -62,11 +63,7 @@ function deleteFFmpegInputList() {
 
 # Join video files using FFmpeg's concat demuxer. See: https://trac.ffmpeg.org/wiki/Concatenate
 function joinMOVs() {
-	info "*** Joining MOV files... ***"
-  # Check if FFmpegInputList has been created
-  if [[ ! -f $FFmpegInputList ]]; then
-    fatal "FFmpegInputList not found / no MOV files in current directory. Aborting..."
-  fi
+  info "*** Joining MOV files... ***"
 	# Generate time stamp for output file based on date of first input file (ZOOM*.MOV)
 	timeStamp=$(stat -f "%Sm" -t "%y%m%d-%H%M%S" +(ZOOM)*.+(MOV|mov))
 	# Run FFmpeg
