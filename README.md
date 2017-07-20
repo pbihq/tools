@@ -8,7 +8,7 @@ MailDBOptimiser
 ===============
 Optimises the Apple Mail database. Inspired by [Brett Terpstra's post][1]. Run it remotely:  
 
-    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/MailDBOptimiser.sh | bash
+    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/MailDBOptimiser/MailDBOptimiser.sh | bash
 
 [1]: http://brettterpstra.com/2015/10/27/vacuuming-mail-dot-app-on-el-capitan/
 
@@ -28,16 +28,28 @@ RemoveSierraInstaller
 ===========
 Looks for the macOS Sierra installer and if found removes it. Run it with sudo or as root in Apple Remote Desktop.
 
-    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/RemoveSierraInstaller.sh | bash
+    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/RemoveSierraInstaller/RemoveSierraInstaller.sh | bash
 
 Status
 ======
 Displays a quick system status overview on macOS. Run it remotely or install it on your system.
 
-Install Status-Script on local machine. After that you can run it by simply typing "status" in the command line:
+Install Status-Script on local machine. After that you can run it by running "status" on the command line:
 
     curl -sS https://raw.githubusercontent.com/pbihq/tools/master/Status/InstallStatus.sh | bash
 
 Or run it remotely:
 
     curl -sS https://raw.githubusercontent.com/pbihq/tools/master/Status/Status.sh | bash
+
+TranscodeVideo
+===========
+Transcodes a folder's MOV/MP4/MKV files. See script for transcoding details and applied audio filters. Transmuxes FLV files to MP4 first, if found.
+
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/TranscodeVideo.sh)
+
+TransmuxFLVToMP4
+===========
+Transmuxes a folder's FLV files to MP4 without re-encoding them.
+
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TransmuxFLVToMP4/TransmuxFLVToMP4.sh)
