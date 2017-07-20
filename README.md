@@ -44,12 +44,15 @@ Or run it remotely:
 
 TranscodeVideo
 ===========
-Transcodes a folder's MOV/MP4/MKV files. See script for transcoding details and applied audio filters. Transmuxes FLV files to MP4 first, if found.
+Transcodes a folder's MOV/MP4/MKV files using [FFmpeg][4] on macOS. See script for transcoding details and applied audio filters. Transmuxes FLV files to MP4 first, if found. You need to have FFmpeg [installed][5] to use this.
 
     bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/TranscodeVideo.sh)
 
+[4]: https://ffmpeg.org/
+[5]: https://trac.ffmpeg.org/wiki/CompilationGuide/MacOSX
+
 TransmuxFLVToMP4
 ===========
-Transmuxes a folder's FLV files to MP4 without re-encoding them.
+Transmuxes a folder's FLV files to MP4 without re-encoding them using [FFmpeg][4] on macOS. You need to have FFmpeg [installed][5] to use this.
 
     bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TransmuxFLVToMP4/TransmuxFLVToMP4.sh)
