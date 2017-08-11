@@ -24,7 +24,8 @@ shopt -s extglob nullglob
 # #################################################################################################
 
 # Declare FFmpegInputList name variable
-readonly FFmpegInputList="$TMPDIR/JoinMOVs_FFmpegInputList.txt"
+umask 077
+readonly FFmpegInputList=$(mktemp)
 
 # Check if operating system is macOS
 function checkOS() {
@@ -39,13 +40,13 @@ function checkFFmpegInstalled() {
 # Create input list file for FFmpeg.
 function createFFmpegInputList() {
 	# First add file names starting with "ZOOM"
-	for f in +(ZOOM)*.+(MOV|mov); do
-		echo "file '$PWD/$f'" >> $FFmpegInputList
+	for firstFile in +(ZOOM)*.+(MOV|mov); do
+		echo "file '${PWD}/${firstFile}'" >> $FFmpegInputList
 	done
 
 	# Then add subsequent file names starting with "ZO0"
-	for f in +(ZO0)*.+(MOV|mov); do
-		echo "file '$PWD/$f'" >> $FFmpegInputList
+	for followingFile in +(ZO)+([0-9][0-9]).+(MOV|mov); do
+		echo "file '${PWD}/${followingFile}'" >> $FFmpegInputList
 	done
 
   # Check if FFmpegInputList has been created
@@ -74,8 +75,8 @@ function joinMOVs() {
 		-safe 0 \
 		-i $FFmpegInputList \
 		-c copy \
-		"$timeStamp".mov \
-	&& info "Completed. '$timeStamp.mov' has been created."
+		"${timeStamp}.mov" \
+	&& info "Completed. '${timeStamp}.mov' has been created."
 }
 
 # Clean up step in case of errors and at the end
