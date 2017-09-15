@@ -60,9 +60,8 @@ function compressH264 {
       -c:v mpeg1video \
       -af \
         "highpass=f=100, \
-        compand=attacks=0:points=-80/-80|-12.4/-12.4|-6/-8|0/-6.8|20/-2.8, \
+        dynaudnorm, \
         afade=t=in:ss=0:d=0.3, \
-        loudnorm, \
         aresample=44100" \
       -c:a mp2 \
       -b:a 192k \
