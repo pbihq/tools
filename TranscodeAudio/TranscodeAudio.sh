@@ -56,6 +56,6 @@ function transcodeMP3 {
 # Run functions
 checkOS || { fatal "It seems you are not running macOS. Exiting..."; }
 checkFFmpegInstalled || { fatal "FFmpeg not found. Please install FFmpeg on your machine. See: https://trac.ffmpeg.org/wiki/CompilationGuide/MacOSX#ffmpegthroughHomebrew"; }
-transcodeMP3 || { fatal "Error converting video '$filename'"; }
+transcodeMP3 || { fatal "Error transcoding audio '$filename'"; }
 
 exit 0
