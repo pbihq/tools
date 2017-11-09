@@ -1,5 +1,6 @@
 #!/bin/bash
 # This small script looks for the OSXNotification.bundle (that prompts users to upgrade their machine) and removes it.
+# See: https://eclecticlight.co/2017/11/09/apple-is-nudging-us-to-upgrade-to-flagging-high-sierra/
 # Run it with sudo or as root in Apple Remote Desktop.
 
 readonly bundle="/Library/Bundles/OSXNotification.bundle"

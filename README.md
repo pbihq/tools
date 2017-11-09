@@ -24,11 +24,20 @@ RemoveFlash
 
 [3]: https://helpx.adobe.com/flash-player/kb/uninstall-flash-player-mac-os.html
 
-RemoveSierraInstaller
+RemoveHighSierraInstaller
 ===========
-Looks for the macOS Sierra installer and if found removes it. Run it with sudo or as root in Apple Remote Desktop.
+Looks for the macOS High Sierra installer and if found removes it. Run it with sudo or as root in Apple Remote Desktop.
 
-    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/RemoveSierraInstaller/RemoveSierraInstaller.sh | bash
+    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/RemoveHighSierraInstaller/RemoveHighSierraInstaller.sh | bash
+
+RemoveOSXNotificationBundle
+===========
+Looks for the macOS OSXNotification.bundle (that prompts users to upgrade their machine) and removes it. Run it with sudo or as root in Apple Remote Desktop.
+Thanks to [Howard Oakley][6] for discovering this.
+
+    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/RemoveOSXNotificationBundle/RemoveOSXNotificationBundle.sh | bash
+
+[6]: https://eclecticlight.co/2017/11/09/apple-is-nudging-us-to-upgrade-to-flagging-high-sierra/
 
 Status
 ======
