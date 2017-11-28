@@ -4,7 +4,7 @@ Transcodes a folder's MOV/MP4/MKV files using [FFmpeg][4] on macOS. See script f
 
 Transcode to H.264:
 
-    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/TranscodeVideo.sh)
+    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/TranscodeVideoH264.sh)
 
 Transcode to MPEG1:
 
