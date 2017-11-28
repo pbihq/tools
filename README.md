@@ -62,9 +62,7 @@ Transcodes a folder's WAV/AIF files to MP3 using [FFmpeg][4] on macOS. See scrip
 
 TranscodeVideo
 ===========
-Transcodes a folder's MOV/MP4/MKV files using [FFmpeg][4] on macOS. See script for transcoding details and applied audio filters. Transmuxes FLV files to MP4 first, if found. You need to have FFmpeg [installed][5] to use this.
-
-    bash <(curl -s https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/TranscodeVideo.sh)
+See [README](https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/README)
 
 TransmuxFLVToMP4
 ===========

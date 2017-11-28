@@ -18,7 +18,7 @@ printf "Mac:\t\t\t%s\nSerial number:\t\t%s\nCurrent user:\t\t%s\nHost name:\t\t%
 
 # Display Bluetooth version
 # Reference: https://www.bluetooth.org/en-us/specification/assigned-numbers/link-manager
-lmp=$(system_profiler -detailLevel full SPBluetoothDataType | awk '/LMP Version/ { print $3 }')
+lmp=$(system_profiler -detailLevel full SPBluetoothDataType 2> /dev/null | awk '/LMP Version/ { print $3 }')
 
 if [ $lmp = "0x8" ] || [ $lmp = "4.2" ]; then
 	bluetooth="4.2"
@@ -72,6 +72,7 @@ printf "Uptime:\t\t\t%s\n" "$runningtime"
 
 # Display battery status
 case $operatingsystem in
+10.13*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $3 }' | sed 's/;$//');;
 10.12*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $3 }' | sed 's/;$//');;
 10.11*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//');;
 10.10*) batterycharge=$(pmset -g batt | awk '/-InternalBattery-0/ { print $2 }' | sed 's/;$//');;
@@ -84,9 +85,9 @@ fi
 printf "Battery charge:\t\t%s\n" "$batterycharge"
 
 # Check free disk space
-diskspace=$(df -Hl | awk '/disk1/ { print $4 }')
-diskusage=$(df -Hl | awk '/disk1/ { print $5 }')
-printf "\nHDD usage:\t\t%s | %sB left\n" "$diskusage" "$diskspace"
+diskspace=$(df -Hl | awk '/disk1s1/ { print $4 }')
+diskusage=$(df -Hl | awk '/disk1s1/ { print $5 }')
+printf "\nHDD usage:\t\t\%s | %sB left\n" "$diskusage" "$diskspace"
 
 # Display CPU usage
 cpuload=$(top -l 1 -s 0 | awk '/CPU usage/ { print $3" "$4" "$5" "$6" "$7" "$8 }')
@@ -99,6 +100,7 @@ printf "\nDesktop items:\t\t%s (%sB)" "$desktopelements" "$desktopsize"
 
 # Calculate Apple Mail database size
 case $operatingsystem in
+10.13*) mailversion="V5";;
 10.12*) mailversion="V4";;
 10.11*) mailversion="V3";;
 10.10*) mailversion="V2";;
@@ -171,8 +173,7 @@ filevaultstatus=$(fdesetup status)
 firewallstatus=$(/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate | awk '{ print $1" "$2" "$3 }')
 
 case $operatingsystem in
-10.11*) sipstatus=$(csrutil status);;
-10.12*) sipstatus=$(csrutil status);;
+10.1*) sipstatus=$(csrutil status);;
 *) sipstatus="SIP not installed.";;
 esac
 
