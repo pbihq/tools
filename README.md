@@ -62,7 +62,7 @@ Transcodes a folder's WAV/AIF files to MP3 using [FFmpeg][4] on macOS. See scrip
 
 TranscodeVideo
 ===========
-See [README](https://raw.githubusercontent.com/pbihq/tools/master/TranscodeVideo/README)
+See [README](https://github.com/pbihq/tools/tree/master/TranscodeVideo)
 
 TransmuxFLVToMP4
 ===========
