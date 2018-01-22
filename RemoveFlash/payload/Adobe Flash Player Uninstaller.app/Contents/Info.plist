@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>14F2009</string>
+	<string>16G1036</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>24.0.0.186</string>
+	<string>28.0.0.137</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleSupportedPlatforms</key>
@@ -27,21 +27,26 @@
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>24.0.0.186</string>
+	<string>28.0.0.137</string>
 	<key>DTCompiler</key>
 	<string>com.apple.compilers.llvm.clang.1_0</string>
 	<key>DTPlatformBuild</key>
-	<string>7C1002</string>
+	<string>8B62</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
 	<key>DTSDKBuild</key>
-	<string>13A595</string>
+	<string>16B2649</string>
 	<key>DTSDKName</key>
-	<string>macosx10.9</string>
+	<string>macosx10.12</string>
 	<key>DTXcode</key>
-	<string>0721</string>
+	<string>0810</string>
 	<key>DTXcodeBuild</key>
-	<string>7C1002</string>
+	<string>8B62</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSMainNibFile</key>
 	<string>FPIMMain</string>
 	<key>NSPrincipalClass</key>

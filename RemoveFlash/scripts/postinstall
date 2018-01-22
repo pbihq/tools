@@ -6,7 +6,7 @@ timeStamp=$(/bin/date "+%Y-%m-%d %H:%M:%S")
 # Check if Flash Player is installed
 if [[ ! -d "$3/Library/Internet Plug-Ins/Flash Player.plugin" ]]; then
   /bin/echo "$timeStamp Adobe Flash Player not found. Exiting..." >> \
-  /Library/Logs/com.point-blank-international.RemoveFlash.log
+  /Library/Logs/net.point-blank.RemoveFlash.log
   # Remove uninstaller app, exit on error
   /bin/rm -rf "$3/tmp/Adobe Flash Player Uninstaller.app" || \
   { /bin/echo "$timeStamp Error deleting Adobe Flash Player Uninstaller.app"; exit 1; }
@@ -16,7 +16,7 @@ fi
 # Check if Uninstaller app is present
 if [[ ! -d "$3/tmp/Adobe Flash Player Uninstaller.app" ]] ; then
   /bin/echo "$timeStamp Error: Flash Player Uninstaller not found." >> \
-  /Library/Logs/com.point-blank-international.RemoveFlash.log
+  /Library/Logs/net.point-blank.RemoveFlash.log
   exit 0
 else
 # Run the uninstaller, exit on error
@@ -28,9 +28,9 @@ $3/tmp/"Adobe Flash Player Uninstaller.app/Contents/MacOS/Adobe Flash Player Ins
 
   if [[ ! -d "$3/tmp/Adobe Flash Player Uninstaller.app" ]] ; then
     /bin/echo "$timeStamp Adobe Flash Player has been removed." >> \
-    /Library/Logs/com.point-blank-international.RemoveFlash.log
+    /Library/Logs/net.point-blank.RemoveFlash.log
     /usr/bin/logger "Adobe Flash Player has been removed." >> \
-    /Library/Logs/com.point-blank-international.RemoveFlash.log
+    /Library/Logs/net.point-blank.RemoveFlash.log
     exit 0
   else
     /bin/echo "$timeStamp Error: Adobe Flash Player Uninstaller app could not be removed."

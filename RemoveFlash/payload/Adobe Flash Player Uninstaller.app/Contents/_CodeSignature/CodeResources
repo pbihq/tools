@@ -12,7 +12,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			un92A25CeaTPxsn9cDvoIaxhzuM=
+			WMYgJcEiEiDRZe7Y0e9aN79AVBk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -21,7 +21,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			G71L9T5r8e4yTFujJIL+W8UmY7c=
+			0gk4MQGWzm+9J+1mX99auAAdCmY=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -241,7 +241,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			gjdRUhLGIhOCRHSefHouiNX+nYs=
+			NTnHRP2gqPL2jR2RPikf5UrGFyY=
 			</data>
 			<key>requirement</key>
 			<string>identifier FPInstallHelper and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = JQ525L2MZD</string>
@@ -250,7 +250,7 @@
 		<dict>
 			<key>cdhash</key>
 			<data>
-			MzndZQ+F9kA7sVBZ86gZFMY4DP8=
+			8+efXgAsKlNeSFSBcE33QB9LtGE=
 			</data>
 			<key>requirement</key>
 			<string>identifier FPUninstallHelper and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */ and certificate leaf[subject.OU] = JQ525L2MZD</string>
@@ -263,7 +263,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			un92A25CeaTPxsn9cDvoIaxhzuM=
+			WMYgJcEiEiDRZe7Y0e9aN79AVBk=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -272,7 +272,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			G71L9T5r8e4yTFujJIL+W8UmY7c=
+			0gk4MQGWzm+9J+1mX99auAAdCmY=
 			</data>
 			<key>optional</key>
 			<true/>
