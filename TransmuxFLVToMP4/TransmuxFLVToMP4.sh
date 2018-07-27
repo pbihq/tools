@@ -15,10 +15,6 @@ fatal()   { echo "[FATAL] $*" 1> >(sed $'s,.*,\e[31m&\e[m,'); awk ""; exit 1; }
 set -euo pipefail
 IFS=$'\n\t'
 
-# Set working directory so that script can be run independent of location
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-
 # Enable extended globbing. Expand file name patterns which match no files to a null string.
 shopt -s extglob nullglob
 
@@ -36,7 +32,7 @@ function checkFFmpegInstalled() {
 
 # Transmuxes FLV files to MP4
 function transmuxFLVToMP4 {
-  for filename in "$DIR"/*.+(flv|FLV); do
+  for filename in *.+(flv|FLV); do
     # Extract filename without file extension
     local filenameBase=${filename%%.*}
     # Display info to user
