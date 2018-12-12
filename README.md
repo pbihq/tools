@@ -62,4 +62,4 @@ See [README](https://github.com/pbihq/tools/tree/master/TranscodeVideo)
 
 Transmuxes a folder's FLV files to MP4 without re-encoding them using [FFmpeg][4] on macOS. You need to have FFmpeg [installed][5] to use this.
 
-    curl -sS https://raw.githubusercontent.com/pbihq/tools/master/TransmuxFLVToMP4/TransmuxFLVToMP4.sh | bash
+    bash <(curl -sS https://raw.githubusercontent.com/pbihq/tools/master/TransmuxFLVToMP4/TransmuxFLVToMP4.sh)
