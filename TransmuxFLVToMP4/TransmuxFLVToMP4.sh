@@ -16,6 +16,10 @@ error()   { echo "[ERROR] $*" 1> >(sed $'s,.*,\e[35m&\e[m,'); awk ""; exit 1; }
 set -euo pipefail
 IFS=$'\n\t'
 
+# Set working directory so that script can be run independent of location
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+
 # Enable extended globbing. Expand file name patterns which match no files to a null string.
 shopt -s extglob nullglob
 
@@ -62,7 +66,7 @@ transmuxFLVToMP4() {
       -i "$filename" \
       -codec copy \
       -loglevel error \
-      "$outputFolder/$filenameBase.mp4" \
+      "$filenameBase.mp4" \
     && info "*** '$filename' has been successfully transmuxed to '$filenameBase.mp4'. ***"
   done
   return 0
