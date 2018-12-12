@@ -56,6 +56,7 @@ checkFiles() {
 # Transmuxes FLV files to MP4
 transmuxFLVToMP4() {
   local -r outputFolder="${1:-"."}"
+
   cd "$outputFolder"
   for filename in *.+(flv|FLV); do
     # Extract filename without file extension
@@ -68,6 +69,9 @@ transmuxFLVToMP4() {
       -loglevel error \
       "$filenameBase.mp4" \
     && info "*** '$filename' has been successfully transmuxed to '$filenameBase.mp4'. ***"
+
+    # Move successfully transmuxed FLV files to trash
+    mv "$filename" ~/.Trash/
   done
   return 0
 }
