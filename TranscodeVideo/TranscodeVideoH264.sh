@@ -27,22 +27,6 @@ checkInstalled() {
     command -v "$1" > /dev/null
 }
 
-# Transmuxes all FLV files in current directory to MP4
-transmuxFLVToMP4() {
-    for filename in *.+(flv|FLV); do
-        # Extract filename without file extension
-        local filenameBase=${filename%%.*}
-        # Display info to user
-        info "*** Transmuxing '$filename'... ***"
-        ffmpeg \
-            -i "$filename" \
-            -codec copy \
-            "$filenameBase.mp4" \
-        && info \
-        "*** '$filename' has been successfully transmuxed to '$filenameBase.mp4'. ***"
-    done
-}
-
 # Compresses all MP4 / MOV files in current directory
 compressH264() {
     for filename in *.+(MOV|mov|MP4|mp4|MKV|mkv); do
@@ -76,8 +60,6 @@ checkOS || error "It seems you are not running macOS. Exiting..."
 
 checkInstalled ffmpeg || error \
 "FFmpeg not found. Please install, e.g. via Homebrew 'brew install ffmpeg'"
-
-transmuxFLVToMP4 || error "Error transmuxing '$filename' to MP4"
 
 compressH264 || error "Error converting video '$filename'"
 
