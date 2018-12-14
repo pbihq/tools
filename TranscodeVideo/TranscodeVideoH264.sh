@@ -8,7 +8,7 @@
 # ultrafast, superfast, veryfast, faster, fast, medium, slow, slower or veryslow
 
 # Example: To convert all video files in ~/Downloads/videos with the 'medium'
-# profile run: ffmpeg ~/Downloads/videos medium
+# profile run: transcode-video ~/Downloads/videos medium
 
 # ##############################################################################
 # Set global properties
